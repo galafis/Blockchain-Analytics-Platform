@@ -86,6 +86,7 @@ class BlockchainAnalyzer:
             plt.title('Feature Importance')
         
         plt.tight_layout()
+        repo_name = "blockchain_analytics_platform"
         plt.savefig(f'{repo_name.lower()}_analysis.png', dpi=300, bbox_inches='tight')
         plt.show()
 

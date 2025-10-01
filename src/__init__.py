@@ -1,1 +1,118 @@
-"""\nBlockchain Analytics Platform - Source Package\n===============================================\n\nEste módulo inicializa o pacote principal da Blockchain Analytics Platform.\n\nPropósito:\n----------\nO arquivo __init__.py transforma o diretório 'src' em um pacote Python válido,\npermitindo importações organizadas e modularização adequada do código. Este é um\npadrão fundamental em projetos Python profissionais que garante a estrutura correta\ndo namespace e facilita a distribuição do código.\n\nFuncionalidades:\n----------------\n- Marca o diretório como um pacote Python importável\n- Define quais módulos e classes são expostos publicamente via __all__\n- Configura importações convenientes para facilitar o uso da API\n- Centraliza configurações e metadados do pacote\n\nArquitetura:\n------------\nA estrutura modular permite que cada componente da plataforma (análise de blockchain,\nrastreamento de portfolio, visualização de dados) seja desenvolvido e mantido\nindependentemente, seguindo princípios SOLID e facilitando testes unitários.\n\nUso:\n----\nEste arquivo permite importações simplificadas como:\n    from src import BlockchainAnalyzer, PortfolioTracker\n    \nao invés de:\n    from src.blockchain_analyzer import BlockchainAnalyzer\n    from src.portfolio_tracker import PortfolioTracker\n\nAutor: Gabriel Demetrios Lafis\nData: 2025\nLicença: MIT\n\"\"\"\n\n# Versão do pacote seguindo Semantic Versioning (semver.org)\n__version__ = \"1.0.0\"\n\n# Metadados do pacote\n__author__ = \"Gabriel Demetrios Lafis\"\n__email__ = \"contact@galafis.dev\"\n__license__ = \"MIT\"\n\n# ==============================================================================\n# IMPORTAÇÕES PÚBLICAS DOS MÓDULOS PRINCIPAIS\n# ==============================================================================\n# Importa as classes principais de cada módulo para facilitar o acesso público.\n# Isso permite que usuários da biblioteca façam:\n#     from src import BlockchainAnalyzer\n# ao invés de:\n#     from src.blockchain_analyzer import BlockchainAnalyzer\n\n# Módulo de Análise Blockchain\n# Fornece funcionalidades para análise de transações e dados on-chain\nfrom .blockchain_analyzer import BlockchainAnalyzer\n\n# Módulo de Rastreamento de Portfolio\n# Gerencia e monitora portfolios de criptomoedas com múltiplos ativos\nfrom .portfolio_tracker import PortfolioTracker\n\n# Módulo de Visualização de Dados\n# Cria gráficos, dashboards e visualizações interativas\nfrom .visualizer import DataVisualizer\n\n# Módulo de Analytics Avançados\n# Contém ferramentas para detecção de padrões, análise de risco e predições\nfrom .advanced_analytics import (\n    PatternAnalyzer,    # Detecção de padrões e anomalias em dados blockchain\n    RiskAnalyzer,       # Cálculo de métricas de risco (volatilidade, VaR, Sharpe)\n    PredictiveModel,    # Modelos preditivos para forecasting de preços\n)\n\n# ==============================================================================\n# LISTA DE EXPORTAÇÕES PÚBLICAS\n# ==============================================================================\n# Define explicitamente quais classes/funções são exportadas quando alguém faz:\n#     from src import *\n# Esta é uma boa prática que previne poluição do namespace e deixa clara a API pública.\n\n__all__ = [\n    # Classes principais de análise\n    \"BlockchainAnalyzer\",     # Analisador principal de blockchain\n    \"PortfolioTracker\",       # Rastreador de portfolio\n    \"DataVisualizer\",         # Visualizador de dados\n    \n    # Classes de analytics avançados\n    \"PatternAnalyzer\",        # Análise de padrões e anomalias\n    \"RiskAnalyzer\",           # Análise de risco financeiro\n    \"PredictiveModel\",        # Modelos de predição\n]\n\n# ==============================================================================\n# CONFIGURAÇÕES GLOBAIS DO PACOTE\n# ==============================================================================\n# Configurações padrão que podem ser sobrescritas por config.yaml ou variáveis de ambiente\n\nDEFAULT_CONFIG = {\n    \"api_rate_limit\": 5,        # requisições por segundo\n    \"cache_enabled\": True,       # habilita cache de dados\n    \"cache_ttl\": 3600,           # tempo de vida do cache (segundos)\n    \"log_level\": \"INFO\",        # nível de logging padrão\n    \"default_network\": \"ethereum\",  # rede blockchain padrão\n}\n\n# ==============================================================================\n# FUNÇÕES AUXILIARES\n# ==============================================================================\n\ndef _init_message():\n    \"\"\"\n    Mensagem informativa exibida ao importar o pacote.\n    \n    Útil para debugging e uso interativo (notebooks, REPL).\n    \"\"\"\n    return f\"Blockchain Analytics Platform v{__version__} carregado com sucesso.\"\n\n# ==============================================================================\n# INICIALIZAÇÃO EM MODO DE DESENVOLVIMENTO\n# ==============================================================================\n# Apenas exibe mensagem se a variável de ambiente DEV_MODE estiver ativa\n\nimport os\nif os.getenv(\"DEV_MODE\") == \"true\":\n    print(_init_message())\n\n# ==============================================================================\n# NOTAS PARA COLABORADORES\n# ==============================================================================\n# - Ao adicionar novos módulos, importe as classes principais aqui\n# - Sempre atualize a lista __all__ com as novas exportações públicas\n# - Mantenha os comentários explicativos para facilitar a manutenção\n# - Siga o padrão de importações relativas (.modulo)\n# - Documente o propósito de cada módulo importado\n# ==============================================================================
+"""
+Blockchain-Analytics-Platform - Pacote Principal (src)
+-----------------------------------------------------
+
+Este pacote organiza os módulos principais da Blockchain Analytics Platform.
+O objetivo é que cada componente (análise de blockchain, rastreamento de portfolio, visualização de dados) seja desenvolvido e mantido
+independentemente, seguindo princípios SOLID e facilitando testes unitários.
+
+Uso:
+----
+Este arquivo permite importações simplificadas como:
+    from src import BlockchainAnalyzer
+    
+ao invés de:
+    from src.main import BlockchainAnalyzer
+
+Autor: Gabriel Demetrios Lafis
+Data: 2025
+Licença: MIT
+"""
+
+# Versão do pacote seguindo Semantic Versioning (semver.org)
+__version__ = "1.0.0"
+
+# Metadados do pacote
+__author__ = "Gabriel Demetrios Lafis"
+__email__ = "contact@galafis.dev"
+__license__ = "MIT"
+
+# ==============================================================================
+# IMPORTAÇÕES PÚBLICAS DOS MÓDULOS PRINCIPAIS
+# ==============================================================================
+# Importa as classes principais de cada módulo para facilitar o acesso público.
+# Isso permite que usuários da biblioteca façam:
+#     from src import BlockchainAnalyzer
+# ao invés de:
+#     from src.main import BlockchainAnalyzer
+
+# Módulo de Análise Blockchain
+# Fornece funcionalidades para análise de transações e dados on-chain
+from .main import BlockchainAnalyzer
+
+# Módulo de Rastreamento de Portfolio
+# Gerencia e monitora portfolios de criptomoedas com múltiplos ativos
+# from .portfolio_tracker import PortfolioTracker
+
+# Módulo de Visualização de Dados
+# Cria gráficos, dashboards e visualizações interativas
+# from .visualizer import DataVisualizer
+
+# Módulo de Analytics Avançados
+# Contém ferramentas para detecção de padrões, análise de risco e predições
+# from .advanced_analytics import (
+#     PatternAnalyzer,
+#     RiskAnalyzer,
+#     PredictiveModel,
+# )
+
+# ==============================================================================
+# LISTA DE EXPORTAÇÕES PÚBLICAS
+# ==============================================================================
+# Define explicitamente quais classes/funções são exportadas quando alguém faz:
+#     from src import *
+# Esta é uma boa prática que previne poluição do namespace e deixa clara a API pública.
+
+__all__ = [
+    "BlockchainAnalyzer",
+    # "PortfolioTracker",
+    # "DataVisualizer",
+    # "PatternAnalyzer",
+    # "RiskAnalyzer",
+    # "PredictiveModel",
+]
+
+# ==============================================================================
+# CONFIGURAÇÕES GLOBAIS DO PACOTE
+# ==============================================================================
+# Configurações padrão que podem ser sobrescritas por config.yaml ou variáveis de ambiente
+
+DEFAULT_CONFIG = {
+    "api_rate_limit": 5,
+    "cache_enabled": True,
+    "cache_ttl": 3600,
+    "log_level": "INFO",
+    "default_network": "ethereum",
+}
+
+# ==============================================================================
+# FUNÇÕES AUXILIARES
+# ==============================================================================
+
+def _init_message():
+    """
+    Mensagem informativa exibida ao importar o pacote.
+    
+    Útil para debugging e uso interativo (notebooks, REPL).
+    """
+    return f"Blockchain Analytics Platform v{__version__} carregado com sucesso."
+
+# ==============================================================================
+# INICIALIZAÇÃO EM MODO DE DESENVOLVIMENTO
+# ==============================================================================
+# Apenas exibe mensagem se a variável de ambiente DEV_MODE estiver ativa
+
+import os
+if os.getenv("DEV_MODE") == "true":
+    print(_init_message())
+
+# ==============================================================================
+# NOTAS PARA COLABORADORES
+# ==============================================================================
+# - Ao adicionar novos módulos, importe as classes principais aqui
+# - Sempre atualize a lista __all__ com as novas exportações públicas
+# - Mantenha os comentários explicativos para facilitar a manutenção
+# - Siga o padrão de importações relativas (.modulo)
+# - Documente o propósito de cada módulo importado
+# ==============================================================================
+
