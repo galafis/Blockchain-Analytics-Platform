@@ -8,7 +8,12 @@ Advanced blockchain analytics platform with cryptocurrency tracking and analysis
 This project demonstrates professional Python development skills with modern best practices, clean code architecture, and industry-standard implementations.
 
 ### 🛠️ Technology Stack
-Python, blockchain APIs, cryptography, data analysis, visualization
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-000000?style=for-the-badge&logo=matplotlib&logoColor=white)
+![Seaborn](https://img.shields.io/badge/Seaborn-3399FF?style=for-the-badge&logo=seaborn&logoColor=white)
+![Scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
 
 ### ⚡ Features
 - Professional code architecture
@@ -73,12 +78,17 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 ## Português
 
 ### 🚀 Visão Geral
-Advanced blockchain analytics platform with cryptocurrency tracking and analysis
+Plataforma avançada de análise de blockchain com rastreamento e análise de criptomoedas.
 
 Este projeto demonstra habilidades profissionais de desenvolvimento em Python com práticas modernas, arquitetura de código limpo e implementações padrão da indústria.
 
 ### 🛠️ Stack Tecnológica
-Python, blockchain APIs, cryptography, data analysis, visualization
+![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-000000?style=for-the-badge&logo=matplotlib&logoColor=white)
+![Seaborn](https://img.shields.io/badge/Seaborn-3399FF?style=for-the-badge&logo=seaborn&logoColor=white)
+![Scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
 
 ### ⚡ Funcionalidades
 - Arquitetura de código profissional
@@ -113,6 +123,18 @@ python main.py
 - Aprendizado de práticas modernas em Python
 - Referência de código e exemplos
 - Implementações de nível empresarial
+
+### 📊 Estrutura do Projeto
+```
+Blockchain-Analytics-Platform/
+├── README.md
+├── LICENSE
+├── main.py
+├── requirements.txt
+├── src/
+├── tests/
+└── docs/
+```
 
 ### 🤝 Contribuindo
 Contribuições são bem-vindas! Sinta-se à vontade para enviar um Pull Request.
@@ -163,10 +185,10 @@ python main.py
 from src.blockchain_analyzer import BlockchainAnalyzer
 
 # Inicializa o analisador
-analyzer = BlockchainAnalyzer(network='ethereum')
+analyzer = BlockchainAnalyzer(network=\'ethereum\')
 
 # Rastreia uma transação específica
-transaction = analyzer.get_transaction('0x123abc...')
+transaction = analyzer.get_transaction(\'0x123abc...\')
 print(f"Status: {transaction.status}")
 print(f"Valor: {transaction.value} ETH")
 ```
@@ -180,7 +202,7 @@ from src.portfolio_tracker import PortfolioTracker
 tracker = PortfolioTracker()
 
 # Adiciona endereços para monitoramento
-tracker.add_address('0xYourWalletAddress')
+tracker.add_address(\'0xYourWalletAddress\')
 
 # Obtém saldo e histórico
 balance = tracker.get_balance()
@@ -199,14 +221,14 @@ viz = DataVisualizer()
 
 # Gera gráfico de evolução de preços
 viz.plot_price_evolution(
-    cryptocurrency='BTC',
-    period='30d',
-    output='btc_analysis.png'
+    cryptocurrency=\'BTC\',
+    period=\'30d\',
+    output=\'btc_analysis.png\'
 )
 
 # Cria dashboard interativo
 viz.create_dashboard(
-    metrics=['volume', 'price', 'market_cap'],
+    metrics=[\'volume\', \'price\', \'market_cap\'],
     export_html=True
 )
 ```
@@ -221,7 +243,7 @@ pattern_analyzer = PatternAnalyzer()
 
 # Identifica comportamentos anômalos
 anomalies = pattern_analyzer.detect_anomalies(
-    address='0xTargetAddress',
+    address=\'0xTargetAddress\',
     threshold=0.95
 )
 
@@ -235,18 +257,18 @@ Crie um arquivo `config.yaml` para personalizar o comportamento da plataforma:
 
 ```yaml
 api_settings:
-  blockchain_provider: 'etherscan'
-  api_key: 'YOUR_API_KEY'
+  blockchain_provider: \'etherscan\'
+  api_key: \'YOUR_API_KEY\'
   rate_limit: 5  # requisições por segundo
 
 analysis:
-  default_network: 'ethereum'
+  default_network: \'ethereum\'
   cache_enabled: true
   cache_ttl: 3600  # segundos
 
 visualization:
-  theme: 'professional'
-  default_export_format: 'png'
+  theme: \'professional\'
+  default_export_format: \'png\'
   interactive_mode: true
 ```
 
@@ -269,22 +291,36 @@ python main.py report --type portfolio --output report.pdf
 
 ```python
 import sys
-sys.path.append('./src')
+sys.path.append(\'./src\')
 
 from blockchain_analyzer import BlockchainAnalyzer
 import matplotlib.pyplot as plt
 
 # Análise interativa
 analyzer = BlockchainAnalyzer()
-data = analyzer.fetch_market_data('BTC', period='1y')
+data = analyzer.fetch_market_data(\'BTC\', period=\'1y\')
 
 plt.figure(figsize=(12, 6))
 plt.plot(data.timestamps, data.prices)
-plt.title('Evolução do Preço do Bitcoin (12 meses)')
-plt.xlabel('Data')
-plt.ylabel('Preço (USD)')
+plt.title(\'Evolução do Preço do Bitcoin (12 meses)\')
+plt.xlabel(\'Data\')
+plt.ylabel(\'Preço (USD)\')
 plt.grid(True)
 plt.show()
 ```
 
 Para mais exemplos e documentação detalhada, consulte a pasta `docs/` ou visite a [wiki do projeto](https://github.com/galafis/Blockchain-Analytics-Platform/wiki).
+
+## 🖼️ Imagem Hero
+
+![Imagem Hero - Blockchain Analytics Platform](https://via.placeholder.com/1200x400?text=Blockchain+Analytics+Platform)
+
+## 📈 Diagramas de Arquitetura
+
+![Diagrama de Arquitetura](docs/architecture_diagram.png)
+
+
+## 📸 Screenshots
+
+(Adicionar screenshots da interface de usuário ou gráficos gerados aqui, quando aplicável.)
+
