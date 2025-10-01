@@ -1,0 +1,14 @@
+api_settings:
+  blockchain_provider: 'etherscan'
+  api_key: 'YOUR_API_KEY'
+  rate_limit: 5
+
+analysis:
+  default_network: 'ethereum'
+  cache_enabled: true
+  cache_ttl: 3600
+
+visualization:
+  theme: 'professional'
+  default_export_format: 'png'
+  interactive_mode: true
