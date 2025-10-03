@@ -2,9 +2,9 @@
 import argparse
 import logging
 import yaml
-from src.blockchain_analyzer import BlockchainAnalyzer, APIError
-from src.portfolio_tracker import PortfolioTracker
-from src.visualizer import DataVisualizer
+from .blockchain_analyzer import BlockchainAnalyzer, APIError
+from .portfolio_tracker import PortfolioTracker
+from .visualizer import DataVisualizer
 
 # Configuração de logging profissional
 logger = logging.getLogger(__name__)

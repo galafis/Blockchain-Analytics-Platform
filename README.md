@@ -1,6 +1,10 @@
 # Blockchain Analytics Platform
 
-![Hero Image Placeholder](docs/hero_image.png)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
+[![Dependencies](https://img.shields.io/badge/Dependencies-Up%20to%20date-brightgreen.svg)](requirements.txt)
+
+![Hero Image](docs/hero_image.png)
 
 ## Visão Geral (Português)
 
@@ -61,13 +65,19 @@ Esta plataforma de análise de blockchain é uma ferramenta robusta e extensíve
 Exemplo de uso básico:
 
 ```python
+import yaml
 from src.blockchain_analyzer import BlockchainAnalyzer
 from src.portfolio_tracker import PortfolioTracker
 from src.visualizer import DataVisualizer
 from src.advanced_analytics import PatternAnalyzer
 
+# Carregar configurações da API
+with open("config.yaml", "r") as f:
+    config = yaml.safe_load(f)
+etherscan_api_key = config["api_settings"]["etherscan_api_key"]
+
 # Inicializar o analisador
-analyzer = BlockchainAnalyzer(network="ethereum", api_key="SUA_CHAVE_API_ETHERSCAN")
+analyzer = BlockchainAnalyzer(network="ethereum", api_key=etherscan_api_key)
 
 # Exemplo: Obter saldo de um endereço
 address = "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
@@ -159,13 +169,19 @@ This blockchain analytics platform is a robust and extensible tool designed to i
 Basic usage example:
 
 ```python
+import yaml
 from src.blockchain_analyzer import BlockchainAnalyzer
 from src.portfolio_tracker import PortfolioTracker
 from src.visualizer import DataVisualizer
 from src.advanced_analytics import PatternAnalyzer
 
+# Load API configurations
+with open("config.yaml", "r") as f:
+    config = yaml.safe_load(f)
+etherscan_api_key = config["api_settings"]["etherscan_api_key"]
+
 # Initialize the analyzer
-analyzer = BlockchainAnalyzer(network="ethereum", api_key="YOUR_ETHERSCAN_API_KEY")
+analyzer = BlockchainAnalyzer(network="ethereum", api_key=etherscan_api_key)
 
 # Example: Get address balance
 address = "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
@@ -185,7 +201,7 @@ if analyzer.validate_address(address):
 
     # Example: Visualization
     visualizer = DataVisualizer(analyzer)
-    # Supondo que você tenha dados de preço e transações para plotar
+    # Assuming you have price and transaction data to plot
     # price_data = pd.DataFrame(...)
     # visualizer.plot_price_evolution(price_data, "ETH", output="eth_price.png")
     # visualizer.plot_portfolio_allocation(summary["holdings"], output="portfolio_allocation.png")
@@ -197,4 +213,3 @@ if analyzer.validate_address(address):
 else:
     print(f"Invalid address: {address}")
 ```
-
