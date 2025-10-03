@@ -302,9 +302,9 @@ data = analyzer.fetch_market_data(\'BTC\', period=\'1y\')
 
 plt.figure(figsize=(12, 6))
 plt.plot(data.timestamps, data.prices)
-plt.title(\'Evolução do Preço do Bitcoin (12 meses)\')
+plt.title(\'Evolução do Preço do Bitcoin (12 meses)\' )
 plt.xlabel(\'Data\')
-plt.ylabel(\'Preço (USD)\')
+plt.ylabel(\'Preço (USD)\' )
 plt.grid(True)
 plt.show()
 ```
@@ -313,7 +313,7 @@ Para mais exemplos e documentação detalhada, consulte a pasta `docs/` ou visit
 
 ## 🖼️ Imagem Hero
 
-![Imagem Hero - Blockchain Analytics Platform](https://via.placeholder.com/1200x400?text=Blockchain+Analytics+Platform)
+![Imagem Hero - Blockchain Analytics Platform](docs/hero_image.png)
 
 ## 📈 Diagramas de Arquitetura
 
@@ -323,4 +323,5 @@ Para mais exemplos e documentação detalhada, consulte a pasta `docs/` ou visit
 ## 📸 Screenshots
 
 (Adicionar screenshots da interface de usuário ou gráficos gerados aqui, quando aplicável.)
+
 
