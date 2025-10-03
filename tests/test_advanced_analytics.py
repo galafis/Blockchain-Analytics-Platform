@@ -1,39 +1,70 @@
-"""
-Testes para advanced_analytics.py
----------------------------------
-Estrutura mínima com pytest, fixtures e testes stub/documentados.
-Autor: Gabriel Demetrios Lafis
-Data: 2025
-Licença: MIT
-"""
+
+import unittest
+from unittest.mock import MagicMock, patch
 import sys
-from pathlib import Path
-import pytest
+import os
+import pandas as pd
+import logging
 
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
-
-@pytest.fixture
-def serie_transacoes_anomala():
-    """Sequência mock com padrões anômalos para testes de detecção."""
-    return [
-        {"value": 0.1, "timestamp": 1},
-        {"value": 1000.0, "timestamp": 2},  # salto abrupto
-        {"value": 0.2, "timestamp": 3},
-    ]
+# Configurar o logger para capturar mensagens durante o teste
+logging.getLogger("src.advanced_analytics").setLevel(logging.ERROR)
+logging.getLogger("src.advanced_analytics").propagate = True
 
 
-class TestPatternAnalyzer:
-    """Suite de testes do módulo PatternAnalyzer."""
 
-    def test_detect_anomalies_retorna_lista(self, serie_transacoes_anomala):
-        """detect_anomalies deve retornar lista de eventos anômalos com metadados."""
-        pytest.skip("Implementar detecção de anomalias e formato de saída padronizado")
+from sklearn.ensemble import IsolationForest
 
-    def test_threshold_param_afeta_resultado(self, serie_transacoes_anomala):
-        """Parâmetro threshold deve influenciar sensibilidade de detecção."""
-        pytest.skip("Implementar variação por threshold e asserts de contagem")
+sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-    def test_input_invalido_lanca_excecao(self):
-        """Entrada inválida deve resultar em exceção clara e documentada."""
-        pytest.skip("Implementar validações de entrada e exceções específicas")
+from src.advanced_analytics import PatternAnalyzer
+
+class TestPatternAnalyzer(unittest.TestCase):
+
+    def setUp(self):
+        self.analyzer = PatternAnalyzer(contamination=0.05)
+
+    def test_initialization(self):
+        self.assertIsInstance(self.analyzer.model, IsolationForest)
+        self.assertEqual(self.analyzer.model.contamination, 0.05)
+
+    def test_detect_anomalies_no_data(self):
+        anomalies = self.analyzer.detect_anomalies([])
+        self.assertEqual(len(anomalies), 0)
+
+    def test_detect_anomalies_success(self):
+        data = [
+            {"value": 10, "gas_used": 21000, "block_number": 100},
+            {"value": 12, "gas_used": 22000, "block_number": 101},
+            {"value": 1000, "gas_used": 500000, "block_number": 102}, # Anomaly
+            {"value": 11, "gas_used": 21500, "block_number": 103},
+            {"value": 9, "gas_used": 20000, "block_number": 104},
+        ]
+        anomalies = self.analyzer.detect_anomalies(data)
+        self.assertGreater(len(anomalies), 0)
+        self.assertEqual(anomalies[0]["value"], 1000)
+        self.assertEqual(anomalies[0]["anomaly_type"], "Comportamento Incomum")
+
+    def test_detect_anomalies_specific_features(self):
+        data = [
+            {"value": 10, "gas_used": 21000, "other_feature": 1},
+            {"value": 12, "gas_used": 22000, "other_feature": 2},
+            {"value": 1000, "gas_used": 21000, "other_feature": 3}, # Anomaly based on value
+        ]
+        anomalies = self.analyzer.detect_anomalies(data, features=["value"])
+        self.assertGreater(len(anomalies), 0)
+        self.assertEqual(anomalies[0]["value"], 1000)
+
+    def test_detect_anomalies_no_numeric_features(self):
+        data = [
+            {"feature_str": "a", "feature_bool": True},
+            {"feature_str": "b", "feature_bool": False},
+        ]
+        with self.assertLogs("src.advanced_analytics", level="ERROR") as cm:
+            anomalies = self.analyzer.detect_anomalies(data, features=["feature_str", "feature_bool"])
+            self.assertEqual(len(anomalies), 0)
+            self.assertIn("Nenhuma das features selecionadas é numérica. Não é possível detectar anomalias.", cm.output[0])
+
+
+if __name__ == "__main__":
+    unittest.main()
+

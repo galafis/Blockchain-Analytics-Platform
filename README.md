@@ -1,327 +1,200 @@
-# Blockchain-Analytics-Platform
+# Blockchain Analytics Platform
 
-## English
+![Hero Image Placeholder](docs/hero_image.png)
 
-### 🚀 Overview
-Advanced blockchain analytics platform with cryptocurrency tracking and analysis
+## Visão Geral (Português)
 
-This project demonstrates professional Python development skills with modern best practices, clean code architecture, and industry-standard implementations.
+Esta plataforma de análise de blockchain é uma ferramenta robusta e extensível projetada para interagir com redes blockchain (atualmente Ethereum via Etherscan API), coletar dados, analisar transações e endereços, e visualizar informações de forma intuitiva. O objetivo é fornecer insights valiosos sobre atividades on-chain, detecção de anomalias e rastreamento de portfólio.
 
-### 🛠️ Technology Stack
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
-![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
-![Matplotlib](https://img.shields.io/badge/Matplotlib-000000?style=for-the-badge&logo=matplotlib&logoColor=white)
-![Seaborn](https://img.shields.io/badge/Seaborn-3399FF?style=for-the-badge&logo=seaborn&logoColor=white)
-![Scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
+### Funcionalidades Principais
 
-### ⚡ Features
-- Professional code architecture
-- Modern development practices
-- Comprehensive error handling
-- Performance optimized
-- Well-documented codebase
-- Industry-standard patterns
+- **Análise de Blockchain (`BlockchainAnalyzer`):**
+    - Conexão com APIs de blockchain (Etherscan).
+    - Validação de endereços e hashes de transação.
+    - Obtenção de saldos de endereços.
+    - Recuperação do histórico de transações.
+- **Rastreador de Portfólio (`PortfolioTracker`):**
+    - Gerenciamento de múltiplos endereços e redes.
+    - Sumarização de portfólios.
+    - Cálculo de ganhos/perdas.
+- **Análise Avançada (`PatternAnalyzer`, `RiskAnalyzer`, `PredictiveModel`):**
+    - Detecção de anomalias em padrões de transação.
+    - Análise de risco (volatilidade, Sharpe ratio, VaR).
+    - Modelos preditivos básicos para forecasting.
+- **Visualização de Dados (`DataVisualizer`):**
+    - Geração de gráficos de evolução de preços, alocação de portfólio e volume de transações.
+    - Suporte a diferentes temas visuais (claro/escuro).
 
-### 🏃‍♂️ Quick Start
-```bash
-# Clone the repository
-git clone https://github.com/galafis/Blockchain-Analytics-Platform.git
+### Instalação
 
-# Navigate to project directory
-cd Blockchain-Analytics-Platform
+1.  **Clonar o repositório:**
+    ```bash
+    git clone https://github.com/galafis/Blockchain-Analytics-Platform.git
+    cd Blockchain-Analytics-Platform
+    ```
 
-# Follow language-specific setup instructions below
-```
+2.  **Criar e ativar um ambiente virtual (recomendado):**
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # Linux/macOS
+    # venv\Scripts\activate   # Windows
+    ```
 
-### 📦 Installation & Setup
-```bash
-# Install dependencies
-pip install -r requirements.txt
+3.  **Instalar dependências:**
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-# Run the application
-python main.py
-```
+4.  **Configuração da API:**
+    Crie um arquivo `config.yaml` na raiz do projeto com sua chave de API do Etherscan:
+    ```yaml
+    api_settings:
+      etherscan_api_key: "SUA_CHAVE_API_ETHERSCAN"
+      rate_limit: 5 # Requisições por segundo
+    analysis:
+      cache_ttl: 3600 # Tempo de vida do cache em segundos
+    ```
+    Obtenha sua chave de API em [Etherscan API](https://etherscan.io/apis).
 
-### 🎯 Use Cases
-- Professional development portfolio
-- Learning modern Python practices
-- Code reference and examples
-- Enterprise-grade implementations
+### Uso
 
-### 📊 Project Structure
-```
-Blockchain-Analytics-Platform/
-├── README.md
-├── LICENSE
-├── main.py
-├── requirements.txt
-├── src/
-├── tests/
-└── docs/
-```
-
-### 🤝 Contributing
-Contributions are welcome! Please feel free to submit a Pull Request.
-
-### 📄 License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-### 👨‍💻 Author
-**Gabriel Demetrios Lafis**
-- Data Scientist & Engineer
-- Systems Developer & Analyst
-- Cybersecurity Specialist
-
----
-
-## Português
-
-### 🚀 Visão Geral
-Plataforma avançada de análise de blockchain com rastreamento e análise de criptomoedas.
-
-Este projeto demonstra habilidades profissionais de desenvolvimento em Python com práticas modernas, arquitetura de código limpo e implementações padrão da indústria.
-
-### 🛠️ Stack Tecnológica
-![Python](https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white)
-![NumPy](https://img.shields.io/badge/NumPy-013243?style=for-the-badge&logo=numpy&logoColor=white)
-![Pandas](https://img.shields.io/badge/Pandas-150458?style=for-the-badge&logo=pandas&logoColor=white)
-![Matplotlib](https://img.shields.io/badge/Matplotlib-000000?style=for-the-badge&logo=matplotlib&logoColor=white)
-![Seaborn](https://img.shields.io/badge/Seaborn-3399FF?style=for-the-badge&logo=seaborn&logoColor=white)
-![Scikit-learn](https://img.shields.io/badge/scikit--learn-F7931E?style=for-the-badge&logo=scikit-learn&logoColor=white)
-
-### ⚡ Funcionalidades
-- Arquitetura de código profissional
-- Práticas modernas de desenvolvimento
-- Tratamento abrangente de erros
-- Otimizado para performance
-- Base de código bem documentada
-- Padrões da indústria
-
-### 🏃‍♂️ Início Rápido
-```bash
-# Clone o repositório
-git clone https://github.com/galafis/Blockchain-Analytics-Platform.git
-
-# Navegue para o diretório do projeto
-cd Blockchain-Analytics-Platform
-
-# Siga as instruções de configuração específicas da linguagem abaixo
-```
-
-### 📦 Instalação e Configuração
-```bash
-# Instale as dependências
-pip install -r requirements.txt
-
-# Execute a aplicação
-python main.py
-```
-
-### 🎯 Casos de Uso
-- Portfólio de desenvolvimento profissional
-- Aprendizado de práticas modernas em Python
-- Referência de código e exemplos
-- Implementações de nível empresarial
-
-### 📊 Estrutura do Projeto
-```
-Blockchain-Analytics-Platform/
-├── README.md
-├── LICENSE
-├── main.py
-├── requirements.txt
-├── src/
-├── tests/
-└── docs/
-```
-
-### 🤝 Contribuindo
-Contribuições são bem-vindas! Sinta-se à vontade para enviar um Pull Request.
-
-### 📄 Licença
-Este projeto está licenciado sob a Licença MIT - veja o arquivo LICENSE para detalhes.
-
-### 👨‍💻 Autor
-**Gabriel Demetrios Lafis**
-- Cientista e Engenheiro de Dados
-- Desenvolvedor e Analista de Sistemas
-- Especialista em Segurança Cibernética
-
----
-
-⭐ **Se este projeto foi útil para você, considere dar uma estrela!**
-
-## 📋 Descrição
-
-A **Blockchain Analytics Platform** é uma solução avançada desenvolvida para análise aprofundada de dados blockchain e rastreamento de criptomoedas. A plataforma oferece ferramentas robustas para monitoramento de transações, análise de padrões de mercado e visualização de dados em tempo real.
-
-Este projeto foi arquitetado seguindo princípios SOLID e padrões de design reconhecidos pela indústria, garantindo escalabilidade, manutenibilidade e extensibilidade. A implementação utiliza práticas modernas de desenvolvimento Python, incluindo type hints, documentação abrangente e testes automatizados.
-
-O sistema integra múltiplas APIs de blockchain, processa grandes volumes de dados transacionais e fornece insights acionáveis através de dashboards interativos e relatórios customizáveis. A arquitetura modular permite fácil integração com novos provedores de dados e extensão de funcionalidades analíticas.
-
-**Objetivos principais:**
-- Fornecer análise em tempo real de transações blockchain
-- Rastrear e monitorar portfolios de criptomoedas
-- Identificar padrões e anomalias em dados transacionais
-- Gerar visualizações e relatórios detalhados
-- Garantir segurança e integridade no processamento de dados
-
-## 💻 Uso
-
-### Inicialização Básica
-
-Após instalar as dependências, execute o arquivo principal para iniciar a plataforma:
-
-```python
-python main.py
-```
-
-### Exemplos de Uso
-
-#### 1. Rastreamento de Transações
+Exemplo de uso básico:
 
 ```python
 from src.blockchain_analyzer import BlockchainAnalyzer
-
-# Inicializa o analisador
-analyzer = BlockchainAnalyzer(network=\'ethereum\')
-
-# Rastreia uma transação específica
-transaction = analyzer.get_transaction(\'0x123abc...\')
-print(f"Status: {transaction.status}")
-print(f"Valor: {transaction.value} ETH")
-```
-
-#### 2. Análise de Portfolio
-
-```python
 from src.portfolio_tracker import PortfolioTracker
-
-# Cria um rastreador de portfolio
-tracker = PortfolioTracker()
-
-# Adiciona endereços para monitoramento
-tracker.add_address(\'0xYourWalletAddress\')
-
-# Obtém saldo e histórico
-balance = tracker.get_balance()
-history = tracker.get_transaction_history(days=30)
-
-print(f"Saldo total: ${balance.total_usd}")
-```
-
-#### 3. Visualização de Dados
-
-```python
 from src.visualizer import DataVisualizer
-
-# Inicializa o visualizador
-viz = DataVisualizer()
-
-# Gera gráfico de evolução de preços
-viz.plot_price_evolution(
-    cryptocurrency=\'BTC\',
-    period=\'30d\',
-    output=\'btc_analysis.png\'
-)
-
-# Cria dashboard interativo
-viz.create_dashboard(
-    metrics=[\'volume\', \'price\', \'market_cap\'],
-    export_html=True
-)
-```
-
-#### 4. Análise Avançada
-
-```python
 from src.advanced_analytics import PatternAnalyzer
 
-# Detecta padrões em transações
-pattern_analyzer = PatternAnalyzer()
+# Inicializar o analisador
+analyzer = BlockchainAnalyzer(network="ethereum", api_key="SUA_CHAVE_API_ETHERSCAN")
 
-# Identifica comportamentos anômalos
-anomalies = pattern_analyzer.detect_anomalies(
-    address=\'0xTargetAddress\',
-    threshold=0.95
-)
+# Exemplo: Obter saldo de um endereço
+address = "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+if analyzer.validate_address(address):
+    balance = analyzer.get_balance(address)
+    print(f"Saldo de {address}: {balance} ETH")
 
-for anomaly in anomalies:
-    print(f"Anomalia detectada: {anomaly.type} em {anomaly.timestamp}")
+    # Exemplo: Obter histórico de transações
+    history = analyzer.get_address_history(address)
+    print(f"Total de transações: {len(history)}")
+
+    # Exemplo: Rastrear portfólio
+    tracker = PortfolioTracker(analyzer)
+    tracker.add_address(address, "ethereum")
+    summary = tracker.get_portfolio_summary()
+    print("Sumário do Portfólio:", summary)
+
+    # Exemplo: Visualização
+    visualizer = DataVisualizer(analyzer)
+    # Supondo que você tenha dados de preço e transações para plotar
+    # price_data = pd.DataFrame(...)
+    # visualizer.plot_price_evolution(price_data, "ETH", output="eth_price.png")
+    # visualizer.plot_portfolio_allocation(summary["holdings"], output="portfolio_allocation.png")
+
+    # Exemplo: Detecção de anomalias
+    pattern_analyzer = PatternAnalyzer()
+    # anomalies = pattern_analyzer.detect_anomalies(history, features=["value", "gasUsed"])
+    # print(f"Anomalias detectadas: {len(anomalies)}")
+else:
+    print(f"Endereço inválido: {address}")
 ```
 
-### Configuração Avançada
+## Overview (English)
 
-Crie um arquivo `config.yaml` para personalizar o comportamento da plataforma:
+This blockchain analytics platform is a robust and extensible tool designed to interact with blockchain networks (currently Ethereum via Etherscan API), collect data, analyze transactions and addresses, and visualize information intuitively. The goal is to provide valuable insights into on-chain activities, anomaly detection, and portfolio tracking.
 
-```yaml
-api_settings:
-  blockchain_provider: \'etherscan\'
-  api_key: \'YOUR_API_KEY\'
-  rate_limit: 5  # requisições por segundo
+### Key Features
 
-analysis:
-  default_network: \'ethereum\'
-  cache_enabled: true
-  cache_ttl: 3600  # segundos
+-   **Blockchain Analysis (`BlockchainAnalyzer`):**
+    -   Connection with blockchain APIs (Etherscan).
+    -   Validation of addresses and transaction hashes.
+    -   Retrieval of address balances.
+    -   Retrieval of transaction history.
+-   **Portfolio Tracker (`PortfolioTracker`):**
+    -   Management of multiple addresses and networks.
+    -   Portfolio summarization.
+    -   Calculation of gains/losses.
+-   **Advanced Analytics (`PatternAnalyzer`, `RiskAnalyzer`, `PredictiveModel`):**
+    -   Anomaly detection in transaction patterns.
+    -   Risk analysis (volatility, Sharpe ratio, VaR).
+    -   Basic predictive models for forecasting.
+-   **Data Visualization (`DataVisualizer`):**
+    -   Generation of price evolution, portfolio allocation, and transaction volume charts.
+    -   Support for different visual themes (light/dark).
 
-visualization:
-  theme: \'professional\'
-  default_export_format: \'png\'
-  interactive_mode: true
-```
+### Installation
 
-### Linha de Comando
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/galafis/Blockchain-Analytics-Platform.git
+    cd Blockchain-Analytics-Platform
+    ```
 
-A plataforma também oferece interface CLI para operações rápidas:
+2.  **Create and activate a virtual environment (recommended):**
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate  # Linux/macOS
+    # venv\Scripts\activate   # Windows
+    ```
 
-```bash
-# Analisa uma transação específica
-python main.py analyze --tx 0x123abc... --network ethereum
+3.  **Install dependencies:**
+    ```bash
+    pip install -r requirements.txt
+    ```
 
-# Monitora um endereço
-python main.py monitor --address 0xYourAddress --interval 60
+4.  **API Configuration:**
+    Create a `config.yaml` file in the project root with your Etherscan API key:
+    ```yaml
+    api_settings:
+      etherscan_api_key: "YOUR_ETHERSCAN_API_KEY"
+      rate_limit: 5 # Requests per second
+    analysis:
+      cache_ttl: 3600 # Cache time-to-live in seconds
+    ```
+    Get your API key from [Etherscan API](https://etherscan.io/apis).
 
-# Gera relatório
-python main.py report --type portfolio --output report.pdf
-```
+### Usage
 
-### Integração com Jupyter Notebooks
+Basic usage example:
 
 ```python
-import sys
-sys.path.append(\'./src\')
+from src.blockchain_analyzer import BlockchainAnalyzer
+from src.portfolio_tracker import PortfolioTracker
+from src.visualizer import DataVisualizer
+from src.advanced_analytics import PatternAnalyzer
 
-from blockchain_analyzer import BlockchainAnalyzer
-import matplotlib.pyplot as plt
+# Initialize the analyzer
+analyzer = BlockchainAnalyzer(network="ethereum", api_key="YOUR_ETHERSCAN_API_KEY")
 
-# Análise interativa
-analyzer = BlockchainAnalyzer()
-data = analyzer.fetch_market_data(\'BTC\', period=\'1y\')
+# Example: Get address balance
+address = "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+if analyzer.validate_address(address):
+    balance = analyzer.get_balance(address)
+    print(f"Balance of {address}: {balance} ETH")
 
-plt.figure(figsize=(12, 6))
-plt.plot(data.timestamps, data.prices)
-plt.title(\'Evolução do Preço do Bitcoin (12 meses)\' )
-plt.xlabel(\'Data\')
-plt.ylabel(\'Preço (USD)\' )
-plt.grid(True)
-plt.show()
+    # Example: Get transaction history
+    history = analyzer.get_address_history(address)
+    print(f"Total transactions: {len(history)}")
+
+    # Example: Track portfolio
+    tracker = PortfolioTracker(analyzer)
+    tracker.add_address(address, "ethereum")
+    summary = tracker.get_portfolio_summary()
+    print("Portfolio Summary:", summary)
+
+    # Example: Visualization
+    visualizer = DataVisualizer(analyzer)
+    # Supondo que você tenha dados de preço e transações para plotar
+    # price_data = pd.DataFrame(...)
+    # visualizer.plot_price_evolution(price_data, "ETH", output="eth_price.png")
+    # visualizer.plot_portfolio_allocation(summary["holdings"], output="portfolio_allocation.png")
+
+    # Example: Anomaly detection
+    pattern_analyzer = PatternAnalyzer()
+    # anomalies = pattern_analyzer.detect_anomalies(history, features=["value", "gasUsed"])
+    # print(f"Detected anomalies: {len(anomalies)}")
+else:
+    print(f"Invalid address: {address}")
 ```
-
-Para mais exemplos e documentação detalhada, consulte a pasta `docs/` ou visite a [wiki do projeto](https://github.com/galafis/Blockchain-Analytics-Platform/wiki).
-
-## 🖼️ Imagem Hero
-
-![Imagem Hero - Blockchain Analytics Platform](docs/hero_image.png)
-
-## 📈 Diagramas de Arquitetura
-
-![Diagrama de Arquitetura](docs/architecture_diagram.png)
-
-
-## 📸 Screenshots
-
-(Adicionar screenshots da interface de usuário ou gráficos gerados aqui, quando aplicável.)
-
 

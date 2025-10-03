@@ -1,6 +1,6 @@
 api_settings:
   blockchain_provider: 'etherscan'
-  api_key: 'YOUR_API_KEY'
+  etherscan_api_key: 'ghp_prrdiGzjbiWveqkve36uYklVZFXQxf0xNqJV'
   rate_limit: 5
 
 analysis:

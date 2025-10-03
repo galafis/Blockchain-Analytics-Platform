@@ -1,112 +1,92 @@
-"""
-Blockchain Analytics Platform - Advanced Analytics Module
-=========================================================
 
-Módulo para análises avançadas e detecção de padrões em dados blockchain.
-
-Propósito:
-----------
-Fornecer ferramentas sofisticadas de análise para identificação de padrões,
-anomalias, correlações e predições em dados blockchain. Integra técnicas de
-machine learning, estatística avançada e análise de séries temporais.
-
-Funcionalidades Principais:
---------------------------
-- Detecção de anomalias em transações (outliers, comportamento suspeito)
-- Análise de correlação entre ativos e redes
-- Identificação de padrões temporais (sazonalidade, tendências)
-- Cálculo de métricas de risco (volatilidade, VaR, Sharpe ratio)
-- Clustering de endereços e transações similares
-- Predição de preços e volumes (modelos básicos)
-
-Arquitetura:
-------------
-Utiliza padrão Template Method para algoritmos de detecção,
-permitindo customização de etapas individuais sem alterar fluxo principal.
-
-Autor: Gabriel Demetrios Lafis
-Data: 2025
-Licença: MIT
-Versão: 1.0.0
-"""
-
-from typing import Dict, List, Optional, Any, Tuple
 import logging
-from dataclasses import dataclass
-from datetime import datetime
-from enum import Enum
+from typing import Dict, List, Any, Optional
+import pandas as pd
+from sklearn.ensemble import IsolationForest
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
+logger.setLevel(logging.ERROR) # Alterado para ERROR para testes
 
 
-class AnomalyType(Enum):
-    """Tipos de anomalias detectáveis."""
-    OUTLIER = 'outlier'
-    SPIKE = 'spike'
-    DRIFT = 'drift'
-    UNUSUAL_PATTERN = 'unusual_pattern'
-
-
-@dataclass
-class Anomaly:
-    """Representa uma anomalia detectada."""
-    type: AnomalyType
-    timestamp: datetime
-    value: float
-    expected_value: float
-    confidence: float  # 0.0 a 1.0
-    description: str
 
 
 class PatternAnalyzer:
     """
-    Analisador de padrões em dados blockchain.
+    Classe para análise avançada de padrões e detecção de anomalias em dados blockchain.
 
-    Identifica comportamentos anômalos, padrões recorrentes e tendências
-    em transações e preços.
+    Utiliza algoritmos de Machine Learning para identificar comportamentos incomuns
+    em transações ou atividades de endereço, que podem indicar fraudes ou atividades suspeitas.
 
     Example:
-        >>> analyzer = PatternAnalyzer(sensitivity=0.95)
-        >>> anomalies = analyzer.detect_anomalies(
-        ...     address='0xAddress',
-        ...     threshold=0.95
-        ... )
+        >>> analyzer = PatternAnalyzer()
+        >>> anomalies = analyzer.detect_anomalies(transaction_data)
+        >>> for anomaly in anomalies:
+        >>>     print(f"Anomalia detectada: {anomaly["anomaly_type"]} em {anomaly["timestamp"]}")
     """
 
-    def __init__(self, sensitivity: float = 0.90):
+    def __init__(self, contamination: float = 0.01):
         """
         Inicializa o analisador de padrões.
 
         Args:
-            sensitivity: Sensibilidade do detector (0.0 a 1.0)
-                        Valores maiores detectam mais anomalias
+            contamination: A proporção esperada de anomalias nos dados.
+                           Usado pelo IsolationForest.
         """
-        self.sensitivity = sensitivity
-        logger.info(f"PatternAnalyzer inicializado (sensitivity={sensitivity})")
-        # TODO: Carregar modelos pré-treinados se disponíveis
+        self.model = IsolationForest(contamination=contamination, random_state=42)
+        logger.info(f"PatternAnalyzer inicializado com contamination={contamination}")
 
-    def detect_anomalies(
-        self,
-        data: List[float],
-        timestamps: Optional[List[datetime]] = None,
-        threshold: Optional[float] = None
-    ) -> List[Anomaly]:
+    def detect_anomalies(self, data: List[Dict[str, Any]], features: Optional[List[str]] = None) -> List[Dict[str, Any]]:
         """
-        Detecta anomalias em série temporal.
+        Detecta anomalias em um conjunto de dados de transações.
 
         Args:
-            data: Lista de valores a analisar
-            timestamps: Timestamps correspondentes (opcional)
-            threshold: Limiar customizado (sobrescreve sensitivity)
+            data: Lista de dicionários, onde cada dicionário representa uma transação ou evento.
+                  Deve conter dados numéricos para análise.
+            features: Lista de nomes das features a serem usadas para detecção de anomalias.
+                      Se None, tentará usar features padrão como 'value', 'gas_used', etc.
 
         Returns:
-            Lista de anomalias detectadas, ordenadas por confiança
+            Uma lista de dicionários, onde cada dicionário representa uma anomalia detectada,
+            incluindo os dados originais da transação e um rótulo de anomalia.
         """
-        logger.info("Detectando anomalias em série temporal")
-        # TODO: Implementar algoritmo de detecção (Isolation Forest, Z-score, etc.)
-        # TODO: Considerar contexto temporal se timestamps fornecidos
-        return []
+        if not data:
+            logger.warning("Nenhum dado fornecido para detecção de anomalias.")
+            return []
+
+        df = pd.DataFrame(data)
+
+        # Tentar inferir features se não forem fornecidas
+        if features is None:
+            # Features comuns em dados de transação que podem indicar anomalias
+            potential_features = [col for col in ["value", "gas_used", "gas_price", "block_number"] if col in df.columns]
+            if not potential_features:
+                logger.error("Nenhuma feature numérica adequada encontrada nos dados para detecção de anomalias.")
+                return []
+            features = potential_features
+        
+        # Garantir que as features selecionadas são numéricas
+        numeric_features = [f for f in features if pd.api.types.is_numeric_dtype(df[f])]
+        if not numeric_features:
+            logger.error("Nenhuma das features selecionadas é numérica. Não é possível detectar anomalias.")
+            return []
+
+        X = df[numeric_features]
+
+        # Treinar o modelo e prever anomalias
+        self.model.fit(X)
+        predictions = self.model.predict(X)
+
+        # -1 para anomalias, 1 para inliers
+        anomalies_indices = df[predictions == -1].index
+
+        anomalies_list = []
+        for idx in anomalies_indices:
+            anomaly_data = df.loc[idx].to_dict()
+            anomaly_data["anomaly_type"] = "Comportamento Incomum"
+            anomalies_list.append(anomaly_data)
+        
+        logger.info(f"Detectadas {len(anomalies_list)} anomalias.")
+        return anomalies_list
 
     def identify_patterns(
         self,
@@ -118,7 +98,7 @@ class PatternAnalyzer:
         Returns:
             Dicionário com padrões identificados e suas frequências
         """
-        logger.info("Identificando padrões em histórico")
+        logger.info("Identificando padrões em histórico (placeholder)")
         # TODO: Implementar detecção de padrões (periodicity, clustering)
         return {}
 
@@ -138,7 +118,7 @@ class PatternAnalyzer:
         Returns:
             Coeficiente de correlação (-1.0 a 1.0)
         """
-        logger.info(f"Calculando correlação ({method})")
+        logger.info(f"Calculando correlação ({method}) (placeholder)")
         # TODO: Implementar cálculo de correlação
         return 0.0
 
@@ -173,7 +153,7 @@ class RiskAnalyzer:
         Returns:
             Volatilidade anualizada
         """
-        logger.info("Calculando volatilidade")
+        logger.info("Calculando volatilidade (placeholder)")
         # TODO: Implementar cálculo com anualização
         return 0.0
 
@@ -188,7 +168,7 @@ class RiskAnalyzer:
         Returns:
             Sharpe ratio (valores maiores indicam melhor retorno/risco)
         """
-        logger.info("Calculando Sharpe ratio")
+        logger.info("Calculando Sharpe ratio (placeholder)")
         # TODO: Implementar (mean_return - risk_free_rate) / volatility
         return 0.0
 
@@ -207,7 +187,7 @@ class RiskAnalyzer:
         Returns:
             VaR percentual (ex: -0.05 = -5%)
         """
-        logger.info(f"Calculando VaR (conf={confidence_level})")
+        logger.info(f"Calculando VaR (conf={confidence_level}) (placeholder)")
         # TODO: Implementar VaR paramétrico ou histórico
         return 0.0
 
@@ -226,7 +206,7 @@ class RiskAnalyzer:
         Returns:
             Resultados por cenário
         """
-        logger.info("Realizando stress test")
+        logger.info("Realizando stress test (placeholder)")
         # TODO: Implementar simulação de cenários
         return {}
 
@@ -250,7 +230,7 @@ class PredictiveModel:
 
     def fit(self, historical_data: List[float]) -> None:
         """Treina modelo com dados históricos."""
-        logger.info("Treinando modelo preditivo")
+        logger.info("Treinando modelo preditivo (placeholder)")
         # TODO: Implementar treinamento conforme model_type
         self.is_fitted = True
 
@@ -267,7 +247,7 @@ class PredictiveModel:
         if not self.is_fitted:
             logger.warning("Modelo não treinado, retornando valores vazios")
             return []
-        logger.info(f"Gerando predições para {periods} períodos")
+        logger.info(f"Gerando predições para {periods} períodos (placeholder)")
         # TODO: Implementar predição
         return []
 
@@ -283,3 +263,4 @@ Notas para Colaboração:
 - Adicionar backtesting para validação de estratégias
 - Considerar técnicas de deep learning para padrões complexos
 """
+

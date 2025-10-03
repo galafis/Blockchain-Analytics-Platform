@@ -1,1 +1,260 @@
-"""\nBlockchain Analytics Platform - Blockchain Analyzer Module\n========================================================\n\nMódulo responsável pela análise e processamento de dados blockchain.\n\nPropósito:\n----------\nEste módulo fornece funcionalidades para conexão, consulta e análise de dados\nde diferentes redes blockchain. Implementa padrões de integração com APIs\npúblicas e privadas, processamento de transações, validação de endereços e\nextração de métricas relevantes para análise financeira e de segurança.\n\nFuncionalidades Principais:\n--------------------------\n- Conexão com múltiplas redes blockchain (Ethereum, Bitcoin, Polygon, etc.)\n- Consulta e parsing de transações individuais\n- Análise de histórico de endereços\n- Validação e normalização de dados blockchain\n- Cache inteligente para otimização de consultas\n- Rate limiting para respeitar limites de APIs\n- Tratamento robusto de erros e retry logic\n\nArquitetura:\n------------\nO módulo segue o padrão Strategy para suportar múltiplas redes blockchain,\npermitindo extensibilidade sem modificação do código existente (Open/Closed Principle).\nUtiliza dependency injection para facilitar testes e mocking de APIs externas.\n\nExemplo de Uso:\n---------------\n    from blockchain_analyzer import BlockchainAnalyzer\n    \n    # Inicializa o analisador para Ethereum\n    analyzer = BlockchainAnalyzer(network='ethereum', api_key='your_key')\n    \n    # Obtém informações de uma transação\n    tx = analyzer.get_transaction('0x123abc...')\n    print(f\"Status: {tx.status}, Valor: {tx.value} ETH\")\n    \n    # Analisa histórico de um endereço\n    history = analyzer.get_address_history('0xAddress', days=30)\n    print(f\"Total de transações: {len(history)}\")\n\nDependências:\n-------------\n- requests: Para chamadas HTTP às APIs\n- web3: Interação com nós Ethereum\n- bitcoin: Suporte para Bitcoin\n- cachetools: Implementação de cache\n\nAutor: Gabriel Demetrios Lafis\nData: 2025\nLicença: MIT\nVersão: 1.0.0\n"""\n\nimport logging\nfrom typing import Dict, List, Optional, Any\nfrom datetime import datetime, timedelta\nfrom abc import ABC, abstractmethod\n\n# Configuração de logging profissional\nlogger = logging.getLogger(__name__)\nlogger.setLevel(logging.INFO)\n\n\nclass BlockchainAnalyzer:\n    \"\"\"\n    Classe principal para análise de dados blockchain.\n    \n    Esta classe serve como interface unificada para interação com diferentes\n    redes blockchain, abstraindo complexidades de APIs específicas e fornecendo\n    uma interface consistente para o restante da aplicação.\n    \n    Attributes:\n        network (str): Nome da rede blockchain (ethereum, bitcoin, polygon, etc.)\n        api_key (str): Chave de API para autenticação\n        cache_enabled (bool): Flag para habilitar/desabilitar cache\n        timeout (int): Timeout para requisições em segundos\n        _cache (Dict): Cache interno para otimização de consultas\n    \n    Example:\n        >>> analyzer = BlockchainAnalyzer(network='ethereum')\n        >>> analyzer.validate_address('0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb')\n        True\n    \"\"\"\n    \n    def __init__(\n        self,\n        network: str = 'ethereum',\n        api_key: Optional[str] = None,\n        cache_enabled: bool = True,\n        timeout: int = 30\n    ):\n        \"\"\"\n        Inicializa o analisador blockchain.\n        \n        Args:\n            network: Nome da rede blockchain a ser analisada\n            api_key: Chave de API para autenticação (opcional para redes públicas)\n            cache_enabled: Se True, habilita cache de consultas para performance\n            timeout: Timeout em segundos para requisições HTTP\n        \n        Raises:\n            ValueError: Se a rede especificada não for suportada\n            ConnectionError: Se não conseguir estabelecer conexão inicial\n        \"\"\"\n        self.network = network.lower()\n        self.api_key = api_key\n        self.cache_enabled = cache_enabled\n        self.timeout = timeout\n        self._cache: Dict[str, Any] = {}\n        \n        logger.info(f\"BlockchainAnalyzer inicializado para rede {self.network}\")\n        \n        # TODO: Implementar lógica de inicialização de conexão\n        # TODO: Validar credenciais de API\n        # TODO: Carregar configurações específicas da rede\n    \n    def get_transaction(self, tx_hash: str) -> Optional[Dict[str, Any]]:\n        \"\"\"\n        Obtém informações detalhadas de uma transação.\n        \n        Args:\n            tx_hash: Hash da transação a ser consultada\n        \n        Returns:\n            Dicionário com dados da transação ou None se não encontrada\n        \n        Raises:\n            ValueError: Se o hash fornecido for inválido\n            APIError: Se houver erro na comunicação com a API\n        \"\"\"\n        logger.info(f\"Consultando transação {tx_hash}\")\n        \n        # TODO: Implementar consulta à API blockchain\n        # TODO: Validar formato do hash\n        # TODO: Aplicar cache se habilitado\n        # TODO: Parsear e normalizar resposta\n        \n        return None  # Placeholder\n    \n    def get_address_history(\n        self,\n        address: str,\n        days: int = 30,\n        limit: Optional[int] = None\n    ) -> List[Dict[str, Any]]:\n        \"\"\"\n        Obtém histórico de transações de um endereço.\n        \n        Args:\n            address: Endereço blockchain a ser analisado\n            days: Número de dias de histórico a retornar\n            limit: Limite máximo de transações (None para sem limite)\n        \n        Returns:\n            Lista de transações ordenadas cronologicamente\n        \n        Raises:\n            ValueError: Se o endereço for inválido\n        \"\"\"\n        logger.info(f\"Obtendo histórico de {address} (últimos {days} dias)\")\n        \n        # TODO: Implementar consulta de histórico\n        # TODO: Aplicar filtros de data\n        # TODO: Implementar paginação se necessário\n        # TODO: Ordenar resultados\n        \n        return []  # Placeholder\n    \n    def validate_address(self, address: str) -> bool:\n        \"\"\"\n        Valida se um endereço é válido para a rede configurada.\n        \n        Args:\n            address: Endereço a ser validado\n        \n        Returns:\n            True se o endereço for válido, False caso contrário\n        \"\"\"\n        # TODO: Implementar validação específica por rede\n        # TODO: Verificar checksum para Ethereum\n        # TODO: Validar formato para Bitcoin\n        \n        return False  # Placeholder\n    \n    def get_balance(self, address: str) -> float:\n        \"\"\"\n        Obtém o saldo atual de um endereço.\n        \n        Args:\n            address: Endereço a consultar\n        \n        Returns:\n            Saldo na moeda nativa da rede\n        \n        Raises:\n            ValueError: Se o endereço for inválido\n        \"\"\"\n        logger.info(f\"Consultando saldo de {address}\")\n        \n        # TODO: Implementar consulta de saldo\n        # TODO: Converter unidades (wei para ETH, satoshi para BTC, etc.)\n        \n        return 0.0  # Placeholder\n    \n    def _clear_cache(self) -> None:\n        \"\"\"Limpa o cache interno de consultas.\"\"\"\n        self._cache.clear()\n        logger.info(\"Cache limpo\")\n    \n    def __repr__(self) -> str:\n        \"\"\"Representação string do objeto para debugging.\"\"\"\n        return f\"BlockchainAnalyzer(network='{self.network}', cache_enabled={self.cache_enabled})\"\n\n\n# ============================================================================\n# CLASSES AUXILIARES - Estruturas de dados e helpers\n# ============================================================================\n\nclass Transaction:\n    \"\"\"\n    Classe para representar uma transação blockchain de forma normalizada.\n    \n    Abstrai diferenças entre redes, fornecendo interface consistente.\n    \"\"\"\n    \n    def __init__(self, data: Dict[str, Any]):\n        \"\"\"\n        Inicializa uma transação a partir de dados brutos.\n        \n        Args:\n            data: Dicionário com dados da transação\n        \"\"\"\n        self.hash = data.get('hash')\n        self.from_address = data.get('from')\n        self.to_address = data.get('to')\n        self.value = data.get('value', 0)\n        self.timestamp = data.get('timestamp')\n        self.status = data.get('status', 'unknown')\n        # TODO: Adicionar mais campos conforme necessário\n    \n    def __repr__(self) -> str:\n        return f\"Transaction(hash='{self.hash}', value={self.value})\"\n\n\n# ============================================================================\n# NOTAS PARA DESENVOLVIMENTO COLABORATIVO\n# ============================================================================\n\"\"\"\nTODOs Prioritários:\n-------------------\n1. Implementar conexão real com APIs (Etherscan, Blockchain.info, etc.)\n2. Adicionar suporte para múltiplas redes (Bitcoin, Polygon, BSC)\n3. Implementar sistema de cache com TTL configurável\n4. Adicionar rate limiting para respeitar limites de API\n5. Criar testes unitários abrangentes\n6. Documentar casos de erro e tratamento\n7. Adicionar métricas e monitoring\n\nMelhorias Futuras:\n------------------\n- Suporte para WebSocket para dados em tempo real\n- Análise de smart contracts e eventos\n- Integração com GraphQL para queries complexas\n- Suporte para múltiplas APIs simultaneamente (fallback)\n- Dashboard de métricas de uso da API\n\nPadrões de Código:\n------------------\n- Sempre adicionar type hints\n- Documentar todas as funções públicas\n- Usar logging ao invés de print\n- Tratar exceções específicas, não genéricas\n- Escrever testes antes de implementar (TDD)\n\"\"\"\n
+
+import logging
+import re
+import requests
+import yaml
+from typing import Dict, List, Optional, Any
+from datetime import datetime, timedelta
+from abc import ABC, abstractmethod
+
+# Configuração de logging profissional
+logger = logging.getLogger(__name__)
+logger.setLevel(logging.INFO)
+
+class APIError(Exception):
+    """Exceção personalizada para erros de API."""
+    pass
+
+class BlockchainAnalyzer:
+    """
+    Classe principal para análise de dados blockchain.
+    
+    Esta classe serve como interface unificada para interação com diferentes
+    redes blockchain, abstraindo complexidades de APIs específicas e fornecendo
+    uma interface consistente para o restante da aplicação.
+    
+    Attributes:
+        network (str): Nome da rede blockchain (ethereum, bitcoin, polygon, etc.)
+        api_key (str): Chave de API para autenticação
+        cache_enabled (bool): Flag para habilitar/desabilitar cache
+        timeout (int): Timeout para requisições em segundos
+        _cache (Dict): Cache interno para otimização de consultas
+        base_url (str): URL base da API do Etherscan
+    
+    Example:
+        >>> analyzer = BlockchainAnalyzer(network='ethereum')
+        >>> analyzer.validate_address('0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb')
+        True
+    """
+    
+    def __init__(
+        self,
+        network: str = 'ethereum',
+        api_key: Optional[str] = None,
+        cache_enabled: bool = True,
+        timeout: int = 30,
+        config_path: str = 'config.yaml'
+    ):
+        """
+        Inicializa o analisador blockchain.
+        
+        Args:
+            network: Nome da rede blockchain a ser analisada
+            api_key: Chave de API para autenticação (opcional para redes públicas)
+            cache_enabled: Se True, habilita cache de consultas para performance
+            timeout: Timeout em segundos para requisições HTTP
+            config_path: Caminho para o arquivo de configuração YAML
+        
+        Raises:
+            ValueError: Se a rede especificada não for suportada
+            ConnectionError: Se não conseguir estabelecer conexão inicial
+        """
+        self.network = network.lower()
+        self.api_key = api_key
+        self.cache_enabled = cache_enabled
+        self.timeout = timeout
+        self._cache: Dict[str, Any] = {}
+        self.base_url = "https://api.etherscan.io/api"
+
+        self._load_config(config_path)
+        
+        if self.network == 'ethereum' and not self.api_key:
+            raise ValueError("API key is required for Ethereum network.")
+        
+        logger.info(f"BlockchainAnalyzer inicializado para rede {self.network}")
+    
+    def _load_config(self, config_path: str):
+        """Carrega configurações do arquivo YAML."""
+        try:
+            with open(config_path, 'r') as f:
+                config = yaml.safe_load(f)
+            self.api_key = config['api_settings'].get('etherscan_api_key', self.api_key)
+            self.rate_limit = config['api_settings'].get('rate_limit', 5)
+            self.cache_ttl = config['analysis'].get('cache_ttl', 3600)
+        except FileNotFoundError:
+            logger.warning(f"Arquivo de configuração {config_path} não encontrado. Usando valores padrão.")
+        except KeyError as e:
+            logger.error(f"Chave ausente no arquivo de configuração: {e}")
+        except Exception as e:
+            logger.error(f"Erro ao carregar configuração: {e}")
+
+    def _make_api_request(self, params: Dict[str, Any]) -> Dict[str, Any]:
+        """Faz uma requisição genérica à API do Etherscan."""
+        params['apikey'] = self.api_key
+        try:
+            response = requests.get(self.base_url, params=params, timeout=self.timeout)
+            response.raise_for_status() # Levanta HTTPError para códigos de status ruins (4xx ou 5xx)
+            data = response.json()
+            if data['status'] == '0':
+                raise APIError(data['message'])
+            return data['result']
+        except requests.exceptions.RequestException as e:
+            raise ConnectionError(f"Erro de conexão com a API do Etherscan: {e}")
+        except APIError as e:
+            raise APIError(f"Erro da API do Etherscan: {e}")
+        except Exception as e:
+            raise Exception(f"Erro inesperado na requisição da API: {e}")
+
+    def get_transaction(self, tx_hash: str) -> Optional[Dict[str, Any]]:
+        """
+        Obtém informações detalhadas de uma transação.
+        
+        Args:
+            tx_hash: Hash da transação a ser consultada
+        
+        Returns:
+            Dicionário com dados da transação ou None se não encontrada
+        
+        Raises:
+            ValueError: Se o hash fornecido for inválido
+            APIError: Se houver erro na comunicação com a API
+        """
+        logger.info(f"Consultando transação {tx_hash}")
+        if not isinstance(tx_hash, str) or not tx_hash.startswith('0x') or len(tx_hash) != 66:
+            raise ValueError("Hash de transação inválido.")
+
+        params = {
+            'module': 'proxy',
+            'action': 'eth_getTransactionByHash',
+            'txhash': tx_hash
+        }
+        try:
+            result = self._make_api_request(params)
+            return result if result else None
+        except APIError as e:
+            logger.error(f"Erro ao obter transação {tx_hash}: {e}")
+            return None
+
+    def get_address_history(
+        self,
+        address: str,
+        startblock: int = 0,
+        endblock: int = 99999999,
+        sort: str = 'asc'
+    ) -> List[Dict[str, Any]]:
+        """
+        Obtém histórico de transações de um endereço.
+        
+        Args:
+            address: Endereço blockchain a ser analisado
+            startblock: Bloco inicial para a busca
+            endblock: Bloco final para a busca
+            sort: Ordem de classificação ('asc' ou 'desc')
+        
+        Returns:
+            Lista de transações ordenadas cronologicamente
+        
+        Raises:
+            ValueError: Se o endereço for inválido
+        """
+        logger.info(f"Obtendo histórico de {address}")
+        if not self.validate_address(address):
+            raise ValueError("Endereço inválido.")
+
+        params = {
+            'module': 'account',
+            'action': 'txlist',
+            'address': address,
+            'startblock': startblock,
+            'endblock': endblock,
+            'sort': sort
+        }
+        try:
+            result = self._make_api_request(params)
+            return result if result else []
+        except APIError as e:
+            logger.error(f"Erro ao obter histórico do endereço {address}: {e}")
+            return []
+
+    def validate_address(self, address: str) -> bool:
+        """
+        Valida se um endereço é válido para a rede configurada (Ethereum).
+        
+        Args:
+            address: Endereço a ser validado
+        
+        Returns:
+            True se o endereço for válido, False caso contrário
+        """
+        # Endereços Ethereum são hexadecimais, 42 caracteres de comprimento e começam com '0x'
+        # Usar regex para validação mais robusta e case-insensitive
+        return re.fullmatch(r"0x[0-9a-fA-F]{40}", address) is not None
+
+    def get_balance(self, address: str) -> float:
+        """
+        Obtém o saldo atual de um endereço em Ether.
+        
+        Args:
+            address: Endereço a consultar
+        
+        Returns:
+            Saldo em Ether
+        
+        Raises:
+            ValueError: Se o endereço for inválido
+        """
+        logger.info(f"Consultando saldo de {address}")
+        if not self.validate_address(address):
+            raise ValueError("Endereço inválido.")
+
+        params = {
+            'module': 'account',
+            'action': 'balance',
+            'address': address,
+            'tag': 'latest'
+        }
+        try:
+            result = self._make_api_request(params)
+            # O saldo é retornado em Wei, precisa ser convertido para Ether
+            return float(result) / (10**18) if result else 0.0
+        except APIError as e:
+            logger.error(f"Erro ao obter saldo do endereço {address}: {e}")
+            return 0.0
+
+    def _clear_cache(self) -> None:
+        """Limpa o cache interno de consultas."""
+        self._cache.clear()
+        logger.info("Cache limpo")
+    
+    def __repr__(self) -> str:
+        """Representação string do objeto para debugging."""
+        return f"BlockchainAnalyzer(network='{self.network}', cache_enabled={self.cache_enabled})"
+
+
+class Transaction:
+    """
+    Classe para representar uma transação blockchain de forma normalizada.
+    
+    Abstrai diferenças entre redes, fornecendo interface consistente.
+    """
+    
+    def __init__(self, data: Dict[str, Any]):
+        """
+        Inicializa uma transação a partir de dados brutos.
+        
+        Args:
+            data: Dicionário com dados da transação
+        """
+        self.hash = data.get('hash')
+        self.from_address = data.get('from')
+        self.to_address = data.get('to')
+        self.value = int(data.get('value', 0)) / (10**18) # Convert Wei to Ether
+        self.timestamp = datetime.fromtimestamp(int(data.get('timeStamp', 0))) if data.get('timeStamp') else None
+        self.status = data.get('txreceipt_status', 'unknown') # Etherscan specific
+        self.gas_used = int(data.get('gasUsed', 0))
+        self.gas_price = int(data.get('gasPrice', 0))
+        self.block_number = int(data.get('blockNumber', 0))
+
+    def __repr__(self) -> str:
+        return f"Transaction(hash='{self.hash}', value={self.value} ETH)"
+
