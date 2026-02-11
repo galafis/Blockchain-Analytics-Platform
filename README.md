@@ -2,7 +2,6 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
-[![Dependencies](https://img.shields.io/badge/Dependencies-Up%20to%20date-brightgreen.svg)](requirements.txt)
 
 ![Hero Image](docs/hero_image.png)
 
