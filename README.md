@@ -1,8 +1,13 @@
 # 📊 Blockchain Analytics Platform
 
+<<<<<<< HEAD
 [![Python](https://img.shields.io/badge/Python-3.12-blue.svg)](https://www.python.org/)
 [![scikit-learn](https://img.shields.io/badge/scikit-learn-1.4-F7931E.svg)](https://scikit-learn.org/)
 [![License](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+=======
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.9+](https://img.shields.io/badge/Python-3.9%2B-blue.svg)](https://www.python.org/downloads/)
+>>>>>>> e1c2119d4caf63856920e4bceec1651eb8941dd4
 
 [English](#english) | [Português](#português)
 
