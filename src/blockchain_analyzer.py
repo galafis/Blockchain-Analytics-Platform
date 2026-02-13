@@ -4,8 +4,7 @@ import re
 import requests
 import yaml
 from typing import Dict, List, Optional, Any
-from datetime import datetime, timedelta
-from abc import ABC, abstractmethod
+from datetime import datetime
 
 # Configuração de logging profissional
 logger = logging.getLogger(__name__)
@@ -33,7 +32,7 @@ class BlockchainAnalyzer:
     
     Example:
         >>> analyzer = BlockchainAnalyzer(network='ethereum')
-        >>> analyzer.validate_address('0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb')
+        >>> analyzer.validate_address('0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0')
         True
     """
     

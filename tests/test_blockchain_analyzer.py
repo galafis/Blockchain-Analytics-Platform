@@ -129,7 +129,7 @@ class TestBlockchainAnalyzer(unittest.TestCase):
         }
         mock_requests_get.return_value = mock_response
 
-        address = "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+        address = "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0"
         history = self.analyzer.get_address_history(address)
         self.assertEqual(len(history), 2)
         self.assertEqual(history[0]["hash"], "0x1")
@@ -139,7 +139,7 @@ class TestBlockchainAnalyzer(unittest.TestCase):
             self.analyzer.get_address_history("invalid_address")
 
     def test_validate_address(self):
-        self.assertTrue(self.analyzer.validate_address("0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"))
+        self.assertTrue(self.analyzer.validate_address("0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0"))
         self.assertFalse(self.analyzer.validate_address("0x123"))
         self.assertFalse(self.analyzer.validate_address("invalid_address"))
         self.assertFalse(self.analyzer.validate_address("0x742d35Cc6634C0532925a3b844Bc9e7595f0bEbg")) # Caractere inválido
@@ -152,7 +152,7 @@ class TestBlockchainAnalyzer(unittest.TestCase):
         mock_response.json.return_value = {"status": "1", "message": "OK", "result": "1000000000000000000"}
         mock_requests_get.return_value = mock_response
 
-        address = "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb"
+        address = "0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0"
         balance = self.analyzer.get_balance(address)
         self.assertAlmostEqual(balance, 1.0)
 
