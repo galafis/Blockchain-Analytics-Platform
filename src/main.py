@@ -2,7 +2,7 @@
 import argparse
 import logging
 import yaml
-from .blockchain_analyzer import BlockchainAnalyzer, APIError
+from .blockchain_analyzer import BlockchainAnalyzer, Transaction, APIError
 from .portfolio_tracker import PortfolioTracker
 from .visualizer import DataVisualizer
 
@@ -44,7 +44,7 @@ def main():
             print(f"\n--- Análise de Transação: {args.tx} ---")
             transaction_data = analyzer.get_transaction(args.tx)
             if transaction_data:
-                transaction = analyzer.Transaction(transaction_data)
+                transaction = Transaction(transaction_data)
                 print(f"Hash: {transaction.hash}")
                 print(f"De: {transaction.from_address}")
                 print(f"Para: {transaction.to_address}")
@@ -67,8 +67,8 @@ def main():
                 if history:
                     print("Últimas 5 transações:")
                     for tx_data in history[:5]:
-                        tx = analyzer.Transaction(tx_data)
-                        print(f"  - Hash: {tx.hash[:10]}..., Valor: {tx.value} ETH, De: {tx.from_address[:10]}..., Para: {tx.to_address[:10]}...")
+                        tx = Transaction(tx_data)
+                        print(f"  - Hash: {(tx.hash or '')[:10]}..., Valor: {tx.value} ETH, De: {(tx.from_address or '')[:10]}..., Para: {(tx.to_address or '')[:10]}...")
                 else:
                     print("Nenhuma transação encontrada para este endereço.")
             else:
@@ -79,7 +79,7 @@ def main():
             tracker = PortfolioTracker(analyzer)
             # Exemplo: Adicionar alguns endereços para rastreamento
             # Estes endereços são apenas para demonstração e podem não ter transações reais
-            tracker.add_address('0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb') # Exemplo de endereço Ethereum
+            tracker.add_address('0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0')  # Exemplo de endereço Ethereum
             tracker.add_address('0xAb5801a7D398351b8bE11C439e05C5B3259aeC9B') # Exemplo de endereço Ethereum
             
             portfolio_summary = tracker.get_portfolio_summary()
@@ -97,7 +97,7 @@ def main():
             # ou de transações de um endereço específico.
             print("Gerando visualização de exemplo (requer dados)...")
             # Para demonstrar, vamos gerar um gráfico simples de um endereço mockado
-            mock_address = '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb'
+            mock_address = '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb0'
             history = analyzer.get_address_history(mock_address)
             if history:
                 visualizer.plot_transaction_volume(history, 'transaction_volume.png')

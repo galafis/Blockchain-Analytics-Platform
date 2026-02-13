@@ -7,29 +7,17 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import pandas as pd
 
-from src.blockchain_analyzer import BlockchainAnalyzer, Transaction # Importar BlockchainAnalyzer e Transaction
+from .blockchain_analyzer import BlockchainAnalyzer, Transaction
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
 
-class ChartType(Enum):
-    """Tipos de gráficos suportados."""
-    LINE = 'line'
-    BAR = 'bar'
-    PIE = 'pie'
-    CANDLESTICK = 'candlestick'
-    HEATMAP = 'heatmap'
-    SCATTER = 'scatter'
-
-
 class ExportFormat(Enum):
-    """Formatos de exportação suportados."""
+    """Formatos de exportação suportados pelo matplotlib."""
     PNG = 'png'
     SVG = 'svg'
     PDF = 'pdf'
-    HTML = 'html'
-    JSON = 'json'
 
 
 class DataVisualizer:
@@ -40,10 +28,10 @@ class DataVisualizer:
     estilo consistentes e otimizando renderização conforme tipo de output.
 
     Example:
-        >>> analyzer = BlockchainAnalyzer(network=\'ethereum\', api_key=\'YOUR_API_KEY\')
-        >>> viz = DataVisualizer(analyzer, theme=\'professional\')
+        >>> analyzer = BlockchainAnalyzer(network='ethereum', api_key='YOUR_API_KEY')
+        >>> viz = DataVisualizer(analyzer, theme='professional')
         >>> # Para plotar, você precisaria de dados reais ou mockados
-        >>> # viz.plot_price_evolution(data={'BTC': [...]}, output=\'btc_chart.png\')
+        >>> # viz.plot_price_evolution(data={'BTC': [...]}, output='btc_chart.png')
     """
 
     def __init__(
@@ -71,7 +59,7 @@ class DataVisualizer:
 
     def _set_style(self):
         """Configura o estilo visual dos gráficos com base no tema."""
-        plt.style.use('seaborn-v0_8-darkgrid') # Um estilo padrão razoável
+        plt.style.use('seaborn-v0_8-darkgrid')
         if self.theme == 'dark':
             plt.rcParams.update({
                 "figure.facecolor": "#282C34",
@@ -100,8 +88,6 @@ class DataVisualizer:
                 "axes.edgecolor": "black",
                 "savefig.facecolor": "white"
             })
-        # 'professional' pode ser um tema padrão ou customizado
-        # Para este exemplo, vamos usar o seaborn-v0_8-darkgrid como base para 'professional'
 
     def plot_price_evolution(
         self,
@@ -131,7 +117,6 @@ class DataVisualizer:
         if output:
             plt.savefig(output, dpi=self.dpi, bbox_inches="tight")
             logger.info(f"Gráfico salvo em {output}")
-        # plt.show() # Não chamar plt.show() em ambiente headless
         return fig
 
     def plot_portfolio_allocation(
@@ -152,7 +137,7 @@ class DataVisualizer:
 
         fig, ax = plt.subplots(figsize=self.figsize)
         ax.pie(sizes, labels=labels, autopct='%1.1f%%', startangle=90, wedgeprops={'edgecolor': 'black'})
-        ax.axis('equal')  # Garante que o gráfico de pizza seja circular.
+        ax.axis('equal')
         ax.set_title('Alocação do Portfólio')
         plt.tight_layout()
         if output:
@@ -167,7 +152,7 @@ class DataVisualizer:
     ) -> plt.Figure:
         """
         Cria gráfico de barras com volume de transações por período.
-        
+
         Args:
             transactions: Lista de dicionários de transações (como retornado pelo BlockchainAnalyzer).
             output: Caminho para salvar o gráfico.
@@ -175,7 +160,6 @@ class DataVisualizer:
         logger.info("Gerando gráfico de volume de transações")
         if not transactions:
             logger.warning("Nenhuma transação fornecida para plotar o volume.")
-            # Retorna uma figura vazia ou levanta um erro, dependendo do comportamento desejado
             fig, ax = plt.subplots(figsize=self.figsize)
             ax.text(0.5, 0.5, "Nenhum dado de transação disponível", horizontalalignment='center', verticalalignment='center', transform=ax.transAxes)
             ax.set_title('Volume de Transações')
@@ -183,8 +167,8 @@ class DataVisualizer:
                 plt.savefig(output, dpi=self.dpi, bbox_inches="tight")
             return fig
 
-        # Converter para DataFrame para facilitar o processamento
-        df = pd.DataFrame([self.analyzer.Transaction(tx).__dict__ for tx in transactions])
+        # Converter para DataFrame usando Transaction diretamente (não é método do analyzer)
+        df = pd.DataFrame([Transaction(tx).__dict__ for tx in transactions])
         df['timestamp'] = pd.to_datetime(df['timestamp'])
         df.set_index('timestamp', inplace=True)
 
@@ -207,24 +191,20 @@ class DataVisualizer:
         self,
         data_sources: Dict[str, Any],
         metrics: Optional[List[str]] = None,
-        interactive: bool = False, # Mantendo como False por enquanto para focar em matplotlib
         export_html: bool = False
     ) -> Any:
         """
-        Cria dashboard interativo consolidado.
+        Cria dashboard consolidado com múltiplas métricas.
 
         Args:
             data_sources: Fontes de dados para compor o dashboard
             metrics: Lista de métricas a exibir
-            interactive: Se True, usa plotly; caso contrário, matplotlib
-            export_html: Se True, exporta para HTML
+            export_html: Se True, exporta para HTML (não implementado)
 
         Returns:
-            Dashboard objeto ou caminho do arquivo HTML
+            Objeto figura do matplotlib
         """
         logger.info("Criando dashboard (funcionalidade básica)")
-        # Esta é uma implementação simplificada. Um dashboard real exigiria mais lógica.
-        # Por enquanto, apenas demonstra a estrutura.
         fig, axes = plt.subplots(nrows=len(metrics) if metrics else 1, ncols=1, figsize=(10, 5 * (len(metrics) if metrics else 1)))
         if not isinstance(axes, (list, tuple, pd.Series, pd.DataFrame)):
             axes = [axes]
@@ -238,7 +218,6 @@ class DataVisualizer:
 
         plt.tight_layout()
         if export_html:
-            # Para exportar para HTML, precisaríamos de uma biblioteca como mpld3 ou plotly
             logger.warning("Exportação para HTML não implementada para dashboards matplotlib.")
             return None
         return fig
@@ -255,7 +234,7 @@ class DataVisualizer:
         Args:
             figure: Objeto figura (matplotlib)
             filename: Nome do arquivo de saída
-            format: Formato de exportação
+            format: Formato de exportação (PNG, SVG, PDF)
 
         Returns:
             True se exportação bem-sucedida
@@ -274,22 +253,8 @@ class DataVisualizer:
         font_family: Optional[str] = None
     ) -> None:
         """Customiza estilo visual dos gráficos."""
-        # TODO: Aplicar customizações de estilo mais avançadas
         if colors:
             sns.set_palette(colors)
         if font_family:
             plt.rcParams["font.family"] = font_family
         logger.info("Estilo visual atualizado.")
-
-
-"""
-Notas para Colaboração:
-----------------------
-- Implementar suporte a gráficos 3D para análise multidimensional
-- Adicionar animações temporais para evolução de dados
-- Criar templates de dashboard pré-configurados por caso de uso
-- Integrar com bibliotecas de mapas para visualização geográfica
-- Adicionar export para formatos específicos de apresentação (PowerPoint, etc.)
-- Implementar cache de gráficos gerados para performance
-"""
-
