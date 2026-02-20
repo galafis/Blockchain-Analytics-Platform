@@ -10,6 +10,10 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 
 from src.blockchain_analyzer import BlockchainAnalyzer, APIError, Transaction
 
+# Chave de API fictícia para testes - não é uma credencial real
+TEST_API_KEY = os.getenv("ETHERSCAN_API_KEY", "TEST_PLACEHOLDER_KEY")
+
+
 class TestBlockchainAnalyzer(unittest.TestCase):
 
     @patch("src.blockchain_analyzer.requests.get")
@@ -18,7 +22,7 @@ class TestBlockchainAnalyzer(unittest.TestCase):
         # Mock do arquivo de configuração
         mock_yaml_load.return_value = {
             "api_settings": {
-                "etherscan_api_key": "TEST_API_KEY",
+                "etherscan_api_key": TEST_API_KEY,
                 "rate_limit": 5
             },
             "analysis": {
@@ -31,11 +35,11 @@ class TestBlockchainAnalyzer(unittest.TestCase):
         mock_response.json.return_value = {"status": "1", "message": "OK", "result": "1000000000000000000"}
         mock_requests_get.return_value = mock_response
 
-        self.analyzer = BlockchainAnalyzer(network="ethereum", api_key="TEST_API_KEY", config_path="config.yaml")
+        self.analyzer = BlockchainAnalyzer(network="ethereum", api_key=TEST_API_KEY, config_path="config.yaml")
 
     def test_initialization(self):
         self.assertEqual(self.analyzer.network, "ethereum")
-        self.assertEqual(self.analyzer.api_key, "TEST_API_KEY")
+        self.assertEqual(self.analyzer.api_key, TEST_API_KEY)
         self.assertTrue(self.analyzer.cache_enabled)
         self.assertEqual(self.analyzer.timeout, 30)
         self.assertEqual(self.analyzer.base_url, "https://api.etherscan.io/api")
@@ -43,7 +47,7 @@ class TestBlockchainAnalyzer(unittest.TestCase):
     def test_load_config_file_not_found(self):
         with patch("builtins.open", side_effect=FileNotFoundError):
             with self.assertLogs("src.blockchain_analyzer", level="WARNING") as cm:
-                analyzer = BlockchainAnalyzer(network="ethereum", api_key="TEST_API_KEY", config_path="non_existent_config.yaml")
+                analyzer = BlockchainAnalyzer(network="ethereum", api_key=TEST_API_KEY, config_path="non_existent_config.yaml")
                 self.assertIn("Arquivo de configuração non_existent_config.yaml não encontrado", cm.output[0])
 
     @patch("src.blockchain_analyzer.requests.get")
@@ -61,7 +65,7 @@ class TestBlockchainAnalyzer(unittest.TestCase):
             params={
                 "module": "test",
                 "action": "test",
-                "apikey": "TEST_API_KEY"
+                "apikey": TEST_API_KEY
             },
             timeout=30
         )
